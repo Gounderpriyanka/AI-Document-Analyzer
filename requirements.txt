@@ -1,0 +1,10 @@
+streamlit
+PyPDF2
+python-docx
+textblob
+spacy
+transformers
+torch
+wordcloud
+matplotlib
+reportlab
