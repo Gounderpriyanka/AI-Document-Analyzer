@@ -24,21 +24,22 @@ cd AI-Document-Analyzer
 
 
 Install dependencies:
-```bash
 pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 
 Run the app:
-```bash
 streamlit run app.py
 
-🌐 Live Demo
 
+🌐 Live Demo
 🔗 (Add your Streamlit Cloud link here after deployment)
 
-👩‍💻 Author
 
-Priyanka Gounder
-📧gounderpriyanka4@gmail.com
-🌐LinkedIn
-💻GitHub
+---
+
+## 👩‍💻 Author
+
+**Priyanka Gounder**  
+📧 [gounderpriyanka4@gmail.com](mailto:gounderpriyanka4@gmail.com)  
+🔗 [LinkedIn](https://www.linkedin.com/in/gounder-priyanka-811108290/)  
+💻 [GitHub](https://github.com/Gounderpriyanka)
