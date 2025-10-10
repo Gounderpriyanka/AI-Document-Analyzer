@@ -25,8 +25,7 @@ except OSError:
     subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
     nlp = spacy.load("en_core_web_sm")
 
-# Load SpaCy NLP model
-nlp = spacy.load("en_core_web_sm")
+
 
 # Load Hugging Face summarization model
 @st.cache_resource
