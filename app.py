@@ -16,6 +16,14 @@ from reportlab.lib import colors
 from reportlab.lib.units import inch
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.styles import ParagraphStyle
+import subprocess
+
+# Ensure the model is installed on Streamlit Cloud
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
+    nlp = spacy.load("en_core_web_sm")
 
 # Load SpaCy NLP model
 nlp = spacy.load("en_core_web_sm")
