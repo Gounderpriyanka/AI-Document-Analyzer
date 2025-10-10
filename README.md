@@ -18,26 +18,34 @@ It can summarize content, detect sentiment, extract keywords & entities, and eve
 ## 🛠️ Installation
 
 Clone the repository:
-```bash
-git clone https://github.com/<your-username>/AI-Document-Analyzer.git
+```
+git clone https://github.com/Gounderpriyanka/AI-Document-Analyzer.git
 cd AI-Document-Analyzer
-
+```
+---
 
 Install dependencies:
+```
 pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 
-Run the app:
-streamlit run app.py
+```
+---
 
+Run the app:
+```
+streamlit run app.py
+```
+---
 
 🌐 Live Demo
+```
 🔗 (Add your Streamlit Cloud link here after deployment)
-
+```
 
 ---
 
-## 👩‍💻 Author
+#### 👩‍💻 Author
 
 **Priyanka Gounder**  
 📧 [gounderpriyanka4@gmail.com](mailto:gounderpriyanka4@gmail.com)  
