@@ -2,7 +2,6 @@ import streamlit as st
 import PyPDF2
 import docx
 from textblob import TextBlob
-import spacy
 from collections import Counter
 import re
 from transformers import pipeline
@@ -18,12 +17,22 @@ from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.styles import ParagraphStyle
 import subprocess
 
-# Ensure the model is installed on Streamlit Cloud
-try:
-    nlp = spacy.load("en_core_web_sm")
-except OSError:
-    subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
-    nlp = spacy.load("en_core_web_sm")
+import spacy
+from spacy.cli import download as spacy_download  # Add this import
+
+# Load spaCy model with automatic download if missing
+@st.cache_resource
+def load_spacy_model():
+    try:
+        nlp = spacy.load("en_core_web_sm")
+    except OSError:
+        st.info("Downloading spaCy model... This may take a moment on first run.")
+        spacy_download("en_core_web_sm")
+        nlp = spacy.load("en_core_web_sm")
+    return nlp
+
+nlp = load_spacy_model()
+
 
 
 
