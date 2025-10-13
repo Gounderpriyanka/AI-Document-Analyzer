@@ -19,16 +19,15 @@ import subprocess
 
 
 
-# Load spaCy model with automatic download if missing
 import spacy
-
+import streamlit as st
 
 @st.cache_resource
 def load_spacy_model():
-    # assume model is installed at build time via requirements.txt
     return spacy.load("en_core_web_sm")
 
 nlp = load_spacy_model()
+
 
 
 
