@@ -1,11 +1,12 @@
-streamlit>=1.38.0
-PyPDF2>=3.0.1
-python-docx>=1.1.2
-textblob>=0.18.0
-spacy==3.7.2
+streamlit==1.38.0
+PyPDF2==3.0.1
+python-docx==1.1.2
+textblob==0.18.0
+spacy==3.7.5
 en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1.tar.gz
-transformers>=4.45.1
-torch==2.2.2+cpu
-wordcloud>=1.9.3
-matplotlib>=3.9.2
-reportlab>=4.2.2
+transformers==4.45.1
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.4.1
+wordcloud==1.9.3
+matplotlib==3.9.2
+reportlab==4.2.2
