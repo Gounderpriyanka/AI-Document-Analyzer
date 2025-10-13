@@ -17,21 +17,19 @@ from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.styles import ParagraphStyle
 import subprocess
 
-import spacy
-from spacy.cli import download as spacy_download  # Add this import
+
 
 # Load spaCy model with automatic download if missing
+import spacy
+
+
 @st.cache_resource
 def load_spacy_model():
-    try:
-        nlp = spacy.load("en_core_web_sm")
-    except OSError:
-        st.info("Downloading spaCy model... This may take a moment on first run.")
-        spacy_download("en_core_web_sm")
-        nlp = spacy.load("en_core_web_sm")
-    return nlp
+    # assume model is installed at build time via requirements.txt
+    return spacy.load("en_core_web_sm")
 
 nlp = load_spacy_model()
+
 
 
 
