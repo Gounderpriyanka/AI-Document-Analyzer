@@ -1,9 +1,10 @@
-streamlit==1.38.0
+streamlit==1.36.0
 PyPDF2==3.0.1
 python-docx==1.1.2
-textblob==0.18.0
-spacy==3.7.2
-transformers==4.45.1
+textblob==0.18.0.post0
+transformers==4.39.3
+torch==2.1.2
 wordcloud==1.9.3
-matplotlib==3.9.2
-reportlab==4.2.2
+matplotlib==3.8.2
+reportlab==4.1.0
+spacy==3.7.2
