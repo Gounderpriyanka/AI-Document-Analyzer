@@ -21,8 +21,9 @@ import spacy
 # Load SpaCy Model
 # -----------------------------
 @st.cache_resource
-def load_spacy_model():
-    return spacy.load("en_core_web_sm")
+def load_spacy():
+    return spacy.blank("en")
+
 
 nlp = load_spacy_model()
 
@@ -31,7 +32,11 @@ nlp = load_spacy_model()
 # -----------------------------
 @st.cache_resource
 def load_summarizer():
-    return pipeline("summarization", model="facebook/bart-large-cnn")
+    return pipeline(
+        "summarization", 
+        model="sshleifer/distilbart-cnn-12-6"
+    )
+
 
 summarizer = load_summarizer()
 
