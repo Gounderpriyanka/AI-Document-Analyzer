@@ -17,23 +17,27 @@ from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.styles import ParagraphStyle
 import spacy
 
+
 # -----------------------------
-# Load SpaCy Model
+# Load SpaCy Model (simple English model for sentence splitting)
 # -----------------------------
 @st.cache_resource
 def load_spacy():
-    return spacy.blank("en")
-
+    nlp = spacy.blank("en")
+    nlp.add_pipe("sentencizer")
+    return nlp
 
 
 nlp = load_spacy()
+
+
 # -----------------------------
 # Load Summarizer
 # -----------------------------
 @st.cache_resource
 def load_summarizer():
     return pipeline(
-        "summarization", 
+        "summarization",
         model="sshleifer/distilbart-cnn-12-6"
     )
 
@@ -117,7 +121,7 @@ def create_prompt(text, mode):
 
 
 # --------------------------------
-# Chunk-based summarizer (fixes errors)
+# Chunk-based summarizer
 # --------------------------------
 def split_into_chunks(text, max_words=350):
     words = text.split()
