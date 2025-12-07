@@ -25,8 +25,8 @@ def load_spacy():
     return spacy.blank("en")
 
 
-nlp = load_spacy_model()
 
+nlp = load_spacy()
 # -----------------------------
 # Load Summarizer
 # -----------------------------
