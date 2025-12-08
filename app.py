@@ -10,30 +10,40 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, ListFlowable, ListItem
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 from reportlab.lib.units import inch
 from reportlab.lib.enums import TA_CENTER
-from reportlab.lib.styles import ParagraphStyle
-import nltk  # Add this
+import nltk
 
-# Download NLTK data (do this once; cache it)
+# -------------------------------------------------------
+# DOWNLOAD REQUIRED NLTK RESOURCES
+# -------------------------------------------------------
 @st.cache_resource
 def download_nltk():
-    nltk.download('punkt')
-    nltk.download('averaged_perceptron_tagger')  # For basic POS tagging if needed
+    nltk.download("punkt")
+    nltk.download("stopwords")
+    nltk.download("averaged_perceptron_tagger")
 
 download_nltk()
 
+
+# -------------------------------------------------------
+# STREAMLIT CONFIG
+# -------------------------------------------------------
 st.set_page_config(
     page_title="AI Document Analyzer",
     page_icon="🧠",
     layout="wide"
 )
 
-# -----------------------------
-# Load Summarizer
-# -----------------------------
+st.title("🧠 AI Document Analyzer")
+st.markdown("Upload a document and get **AI-powered summaries, quizzes, explanations, sentiment, keywords, PDF reports**, and more.")
+
+
+# -------------------------------------------------------
+# LOAD SUMMARIZER
+# -------------------------------------------------------
 @st.cache_resource
 def load_summarizer():
     return pipeline(
@@ -41,13 +51,12 @@ def load_summarizer():
         model="sshleifer/distilbart-cnn-12-6"
     )
 
-
 summarizer = load_summarizer()
 
 
-# --------------------------------
-# Extract Text
-# --------------------------------
+# -------------------------------------------------------
+# TEXT EXTRACTION FUNCTIONS
+# -------------------------------------------------------
 def extract_text_from_pdf(uploaded_file):
     text = ""
     reader = PyPDF2.PdfReader(uploaded_file)
@@ -66,57 +75,67 @@ def extract_text_from_docx(uploaded_file):
 def clean_text(text):
     return re.sub(r"\s+", " ", text.strip())
 
-# In segment_topics, replace SpaCy with NLTK:
+
+# -------------------------------------------------------
+# TOPIC SEGMENTATION
+# -------------------------------------------------------
 def segment_topics(text, chunk_size=300):
-    sentences = nltk.sent_tokenize(text)  # Use NLTK for splitting
+    sentences = nltk.sent_tokenize(text)
     topics = []
     chunk = ""
+
     for s in sentences:
         if len(chunk) + len(s) < chunk_size:
             chunk += " " + s
         else:
             topics.append(chunk.strip())
             chunk = s
+
     if chunk:
         topics.append(chunk.strip())
     return topics
 
-# In analyze_text, update entities to a simple regex-based list (or empty):
+
+# -------------------------------------------------------
+# TEXT ANALYSIS
+# -------------------------------------------------------
 def analyze_text(text):
     blob = TextBlob(text)
     sentiment = blob.sentiment.polarity
 
-    # Simple stopwords (you can expand this list)
-    stopwords = set(["the", "a", "an", "and", "or", "but", "in", "on", "at", "to", "for", "of", "with", "by", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "do", "does", "did", "will", "would", "could", "should", "may", "might", "must", "can", "shall"])
-    words = [w.lower() for w in re.findall(r"\b\w+\b", text) if w.lower() not in stopwords]
+    stopwords = set(nltk.corpus.stopwords.words("english"))
+
+    words = [w.lower() for w in re.findall(r"\b\w+\b", text)
+             if w.lower() not in stopwords]
 
     keywords = Counter(words).most_common(10)
 
-    # Simple entity extraction: Find capitalized words (basic proper nouns)
-    entities = [(match, "PROPN") for match in re.findall(r'\b[A-Z][a-z]+\b', text)]  # Or set to [] if you want to skip
+    # Simple entity: words starting uppercase
+    entities = [(m, "PROPER NOUN") for m in re.findall(r"\b[A-Z][a-zA-Z]+\b", text)]
 
     return sentiment, keywords, entities, words
 
-# --------------------------------
-# AI Prompt Generator
-# --------------------------------
+
+# -------------------------------------------------------
+# AI PROMPTS
+# -------------------------------------------------------
 def create_prompt(text, mode):
     if mode == "Summarize":
         return f"Summarize this clearly:\n{text}"
 
     if mode == "Explain Like a Teacher":
-        return f"Explain this like a teacher with examples:\n{text}"
+        return f"Explain this like a teacher with simple examples:\n{text}"
 
     if mode == "Generate Quiz Questions":
         return f"Generate 5 quiz questions from this content:\n{text}"
 
     if mode == "Create Flashcards":
-        return f"Make flashcards in Q:A format:\n{text}"
+        return f"Make flashcards in Question:Answer format:\n{text}"
 
 
-# --------------------------------
-# Chunk-based summarizer
-# --------------------------------
+# -------------------------------------------------------
+# CHUNK SPLITTING FOR LARGE DOCUMENTS
+# -------------------------------------------------------
 def split_into_chunks(text, max_words=350):
     words = text.split()
     chunks = []
@@ -130,7 +149,6 @@ def split_into_chunks(text, max_words=350):
 
     if current:
         chunks.append(" ".join(current))
-
     return chunks
 
 
@@ -153,9 +171,9 @@ def generate_ai_output(text, mode):
     return final_output.strip()
 
 
-# --------------------------------
-# Word Cloud
-# --------------------------------
+# -------------------------------------------------------
+# WORD CLOUD
+# -------------------------------------------------------
 def generate_wordcloud(words):
     wc = WordCloud(width=800, height=400, background_color="white").generate(" ".join(words))
 
@@ -170,9 +188,9 @@ def generate_wordcloud(words):
     return buf
 
 
-# --------------------------------
-# PDF Report
-# --------------------------------
+# -------------------------------------------------------
+# PDF REPORT GENERATOR
+# -------------------------------------------------------
 def create_pdf(summary, sentiment, keywords, entities, wordcloud_buf):
     buffer = BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=letter)
@@ -197,12 +215,13 @@ def create_pdf(summary, sentiment, keywords, entities, wordcloud_buf):
 
     story.append(Paragraph("🔑 Keywords", styles["Heading2"]))
     story.append(ListFlowable([ListItem(Paragraph(f"{w}: {c}", styles["BodyText"])) for w, c in keywords]))
-    story.append(Spacer(1, 10))
 
-    story.append(Paragraph("🏷️ Named Entities", styles["Heading2"]))
+    story.append(Spacer(1, 10))
+    story.append(Paragraph("🏷️ Entities", styles["Heading2"]))
+
     if entities:
         story.append(ListFlowable([
-            ListItem(Paragraph(f"{e} ({l})", styles["BodyText"])) for e, l in entities
+            ListItem(Paragraph(f"{e} ({label})", styles["BodyText"])) for e, label in entities
         ]))
     else:
         story.append(Paragraph("No entities found.", styles["BodyText"]))
@@ -218,14 +237,9 @@ def create_pdf(summary, sentiment, keywords, entities, wordcloud_buf):
     return buffer
 
 
-# --------------------------------
+# -------------------------------------------------------
 # STREAMLIT UI
-# --------------------------------
-
-
-
-st.markdown("Upload a document and get **AI-powered summaries, quizzes, explanations, keywords, and more.**")
-
+# -------------------------------------------------------
 uploaded_file = st.file_uploader("📁 Upload PDF / DOCX / TXT", type=["pdf", "docx", "txt"])
 
 if uploaded_file:
@@ -253,9 +267,8 @@ if uploaded_file:
     for i, t in enumerate(topics[:5]):
         st.write(f"**Topic {i+1}:** {t[:200]}...")
 
-    st.markdown("### 🎛️ Choose AI Mode")
     mode = st.selectbox(
-        "What should the AI do?",
+        "🎛️ What should the AI do?",
         ["Summarize", "Explain Like a Teacher", "Generate Quiz Questions", "Create Flashcards"]
     )
 
@@ -270,17 +283,8 @@ if uploaded_file:
     sentiment, keywords, entities, words = analyze_text(text)
 
     st.write("#### 😊 Sentiment Polarity:", sentiment)
-
-    st.write("#### 🔑 Keywords:")
-    for w, c in keywords:
-        st.write(f"- {w}: {c}")
-
-    st.write("#### 🏷️ Named Entities:")
-    if entities:
-        for e, l in entities:
-            st.write(f"- {e} ({l})")
-    else:
-        st.write("No entities found.")
+    st.write("#### 🔑 Keywords:", keywords)
+    st.write("#### 🏷️ Entities:", entities)
 
     st.write("#### ☁️ Word Cloud:")
     wordcloud_buf = generate_wordcloud(words)
