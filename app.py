@@ -1,5 +1,3 @@
-
-
 import streamlit as st
 import PyPDF2
 import docx
@@ -17,29 +15,21 @@ from reportlab.lib import colors
 from reportlab.lib.units import inch
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.styles import ParagraphStyle
-import spacy
+import nltk  # Add this
 
+# Download NLTK data (do this once; cache it)
+@st.cache_resource
+def download_nltk():
+    nltk.download('punkt')
+    nltk.download('averaged_perceptron_tagger')  # For basic POS tagging if needed
+
+download_nltk()
 
 st.set_page_config(
     page_title="AI Document Analyzer",
     page_icon="🧠",
     layout="wide"
 )
-
-
-
-# -----------------------------
-# Load SpaCy Model (simple English model for sentence splitting)
-# -----------------------------
-@st.cache_resource
-def load_spacy():
-    nlp = spacy.blank("en")
-    nlp.add_pipe("sentencizer")
-    return nlp
-
-
-nlp = load_spacy()
-
 
 # -----------------------------
 # Load Summarizer
@@ -76,42 +66,36 @@ def extract_text_from_docx(uploaded_file):
 def clean_text(text):
     return re.sub(r"\s+", " ", text.strip())
 
-
-# --------------------------------
-# Topic Segmentation
-# --------------------------------
+# In segment_topics, replace SpaCy with NLTK:
 def segment_topics(text, chunk_size=300):
-    sentences = list(nlp(text).sents)
+    sentences = nltk.sent_tokenize(text)  # Use NLTK for splitting
     topics = []
     chunk = ""
     for s in sentences:
-        if len(chunk) + len(s.text) < chunk_size:
-            chunk += " " + s.text
+        if len(chunk) + len(s) < chunk_size:
+            chunk += " " + s
         else:
             topics.append(chunk.strip())
-            chunk = s.text
+            chunk = s
     if chunk:
         topics.append(chunk.strip())
     return topics
 
-
-# --------------------------------
-# Text Analysis
-# --------------------------------
+# In analyze_text, update entities to a simple regex-based list (or empty):
 def analyze_text(text):
-    doc = nlp(text)
     blob = TextBlob(text)
-
     sentiment = blob.sentiment.polarity
 
-    stopwords = nlp.Defaults.stop_words
+    # Simple stopwords (you can expand this list)
+    stopwords = set(["the", "a", "an", "and", "or", "but", "in", "on", "at", "to", "for", "of", "with", "by", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "do", "does", "did", "will", "would", "could", "should", "may", "might", "must", "can", "shall"])
     words = [w.lower() for w in re.findall(r"\b\w+\b", text) if w.lower() not in stopwords]
 
     keywords = Counter(words).most_common(10)
-    entities = [(ent.text, ent.label_) for ent in doc.ents]
+
+    # Simple entity extraction: Find capitalized words (basic proper nouns)
+    entities = [(match, "PROPN") for match in re.findall(r'\b[A-Z][a-z]+\b', text)]  # Or set to [] if you want to skip
 
     return sentiment, keywords, entities, words
-
 
 # --------------------------------
 # AI Prompt Generator
