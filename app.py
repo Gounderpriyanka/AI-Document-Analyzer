@@ -1,3 +1,5 @@
+
+
 import streamlit as st
 import PyPDF2
 import docx
@@ -16,6 +18,14 @@ from reportlab.lib.units import inch
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.styles import ParagraphStyle
 import spacy
+
+
+st.set_page_config(
+    page_title="AI Document Analyzer",
+    page_icon="🧠",
+    layout="wide"
+)
+
 
 
 # -----------------------------
@@ -227,9 +237,9 @@ def create_pdf(summary, sentiment, keywords, entities, wordcloud_buf):
 # --------------------------------
 # STREAMLIT UI
 # --------------------------------
-st.set_page_config(page_title="AI Document Analyzer", page_icon="🧠", layout="wide")
 
-st.title("🧠 AI Document Analyzer")
+
+
 st.markdown("Upload a document and get **AI-powered summaries, quizzes, explanations, keywords, and more.**")
 
 uploaded_file = st.file_uploader("📁 Upload PDF / DOCX / TXT", type=["pdf", "docx", "txt"])
