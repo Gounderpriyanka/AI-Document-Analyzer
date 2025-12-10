@@ -40,7 +40,7 @@ streamlit run app.py
 
 🌐 Live Demo
 ```
-🔗 (Add your Streamlit Cloud link here after deployment)
+🔗 https://ai-document-analyzer-ytjg2zbfctit7psjdnngef.streamlit.app/
 ```
 
 ---
