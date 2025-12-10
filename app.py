@@ -104,7 +104,7 @@ def init_gemini():
     genai.configure(api_key=api_key)
 
     # Use a valid, widely available model name (2025-safe)
-    return genai.GenerativeModel("gemini-1.5-pro")
+    return genai.GenerativeModel("gemini-2.5 Flash")
 
 
 def gemini_generate(prompt: str) -> str:
