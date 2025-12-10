@@ -33,7 +33,7 @@ st.set_page_config(
     layout="wide",
 )
 
-st.title("🧠 AI Document Analyzer (Gemini Only)")
+st.title("🧠 AI Document Analyzer")
 st.markdown(
     "Upload a **PDF / DOCX / TXT** and get:\n"
     "- ✅ Summaries\n"
