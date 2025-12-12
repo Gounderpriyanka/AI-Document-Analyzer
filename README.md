@@ -1,53 +1,101 @@
-# 🧠 AI Document Analyzer
 
-A Python + Streamlit-based web app that analyzes uploaded documents using AI.  
-It can summarize content, detect sentiment, extract keywords & entities, and even generate a PDF report.
+<p align="center"><img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=32&pause=800&color=09F7FF&center=true&vCenter=true&random=false&width=800&lines=🤖+AI+DOCUMENT+ANALYZER;🌈✨+Smart+AI+Insights+From+Your+Documents" /></p>
+<div align="center"> <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00E5FF,100:8A2BE2&height=220&section=header&text=AI%20Document%20Analyzer&fontSize=45&fontColor=ffffff&animation=twinkling" />
 
----
+A powerful AI app that transforms your PDFs & Docs into smart summaries, explanations, quizzes, flashcards, and NLP insights 
 
-## 🚀 Features
-✅ Upload PDF, DOCX, or TXT files  
-✅ AI-powered text summarization (Transformers)  
-✅ Sentiment analysis with TextBlob  
-✅ Keyword & Named Entity extraction (SpaCy)  
-✅ Word cloud visualization  
-✅ Downloadable professional PDF report  
+</div>
 
 ---
 
-## 🛠️ Installation
+## 🎨 Preview UI
+<p align="center">
+  <img src="https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" />
+  <img src="https://img.shields.io/badge/Gemini%20AI-Powered-4285F4?style=for-the-badge&logo=google&logoColor=white" />
+  <img src="https://img.shields.io/badge/NLP-TextBlob%20%2B%20NLTK-6A5ACD?style=for-the-badge" />
+</p>
 
-Clone the repository:
-```
-git clone https://github.com/Gounderpriyanka/AI-Document-Analyzer.git
-cd AI-Document-Analyzer
-```
----
 
-Install dependencies:
-```
-pip install -r requirements.txt
-python -m spacy download en_core_web_sm
-
-```
----
-
-Run the app:
-```
-streamlit run app.py
-```
----
-
-🌐 Live Demo
-```
-🔗 https://ai-document-analyzer-ytjg2zbfctit7psjdnngef.streamlit.app/
-```
 
 ---
 
-#### 👩‍💻 Author
+# ✨ What This App Can Do
+Your uploaded document becomes:
 
-**Priyanka Gounder**  
-📧 [gounderpriyanka4@gmail.com](mailto:gounderpriyanka4@gmail.com)  
-🔗 [LinkedIn](https://www.linkedin.com/in/gounder-priyanka-811108290/)  
-💻 [GitHub](https://github.com/Gounderpriyanka)
+### 🔹 📝 Smart Summary  
+### 🔹 📘 Teacher-Style Explanation  
+### 🔹 ❓ Auto-Generated MCQ Quiz  
+### 🔹 🎴 Flashcards (Q/A)  
+### 🔹 📊 NLP Insights  
+- Sentiment  
+- Keywords  
+- Entities  
+- Word Cloud  
+
+### 🔹 📄 Downloadable PDF Report
+
+---
+
+# 🚀 Tech Stack
+| Category | Tools |
+|---------|-------|
+| **Frontend** | Streamlit |
+| **AI Model** | Gemini 2.5 Flash |
+| **NLP** | NLTK, TextBlob |
+| **File Processing** | PyPDF2, python-docx |
+| **Visualization** | WordCloud, Matplotlib |
+| **Reports** | ReportLab |
+
+---
+
+# 🧠 How It Works
+
+Upload File → Extract Text → Clean Text</b><br>
+↓</b><br>
+AI Engine (Gemini) → Summary / Explanation / Quiz / Flashcards</b><br>
+↓</b><br>
+Local NLP → Sentiment + Keywords + Entities</b><br>
+↓</b><br>
+Generate Word Cloud → Build PDF Report</b><br>
+
+
+---
+
+# 📦 Installation
+
+git clone https://github.com/Gounderpriyanka/ai-document-analyzer.git</b><br>
+cd ai-document-analyzer</b><br>
+pip install -r requirements.txt</b><br>
+
+---
+
+# 🔑 Setup Gemini API
+## Streamlit Cloud  
+
+Create a file:
+```
+.streamlit/secrets.toml
+```
+Add your API key:
+```toml
+GEMINI_API_KEY="YOUR_API_KEY"
+
+```
+---
+
+### 📁 Project Structure
+```
+📂 ai-document-analyzer
+│── app.py
+│── requirements.txt
+│── README.md
+└── .streamlit/
+      └── secrets.toml
+```
+🖼️ Screenshots
+<img width="1117" height="528" alt="image" src="https://github.com/user-attachments/assets/167585cc-71cd-48c2-836a-1e2125a3f1fe" />
+
+
+⭐ Support This Project
+
+If this project helped you, please consider giving it a ⭐ star on GitHub!
