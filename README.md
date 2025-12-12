@@ -83,6 +83,21 @@ GEMINI_API_KEY="YOUR_API_KEY"
 ```
 ---
 
+<p align="center">
+  <a href="https://ai-document-analyzer-ytjg2zbfctit7psjdnngef.streamlit.app/" target="_blank" 
+     style="padding:12px 25px; 
+            border-radius:10px; 
+            background:#00eaff; 
+            color:#000; 
+            font-weight:bold; 
+            text-decoration:none;
+            box-shadow:0 0 15px #00eaff, 0 0 30px #00eaff;">
+    ⚡ Open AI Document Analyzer
+  </a>
+</p>
+
+---
+
 ### 📁 Project Structure
 ```
 📂 ai-document-analyzer
